@@ -1,10 +1,10 @@
 {
-  "name": "NumberFunctions",
+  "name": "number-string",
   "version": "0.0.0",
-  "description": "NumberFunctions",
+  "description": "Functions to format number to string",
   "main": "app.js",
   "author": {
-    "name": "TJBrix",
-    "email": ""
+    "name": "Tony Brix",
+    "email": "Tony@Brix.ninja"
   }
 }
