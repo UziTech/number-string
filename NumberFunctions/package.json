@@ -1,0 +1,10 @@
+{
+  "name": "NumberFunctions",
+  "version": "0.0.0",
+  "description": "NumberFunctions",
+  "main": "app.js",
+  "author": {
+    "name": "TJBrix",
+    "email": ""
+  }
+}
