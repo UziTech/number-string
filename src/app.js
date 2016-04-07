@@ -144,5 +144,11 @@ exports.toClosest = function (number, roundTo) {
         return roundTo;
     }
     var n = Math.round(number / roundTo) * roundTo;
-    return n;
+    
+    var maxPrecision = 0;
+    while (!Number.isInteger(roundTo)) {
+        roundTo *= 10;
+        maxPrecision++;
+    }
+    return +n.toFixed(maxPrecision);
 };

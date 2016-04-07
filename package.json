@@ -7,6 +7,8 @@
   "scripts": {
     "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "commit": "git add . && git-cz",
+    "push": "git push origin master",
+    "commit:push": "npm run commit && npm run push",
     "test": "istanbul cover -x *.test.js node_modules/mocha/bin/_mocha -- -R spec src/app.test.js",
     "test:watch": "mocha src/app.test.js -w",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"

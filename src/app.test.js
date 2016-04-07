@@ -170,9 +170,9 @@ describe('toClosest', function () {
     it('Decimal Number', function () {
         assert.strictEqual(ns.toClosest(1.5, .4), 1.6);
     });
-    //it('Floating Point Arithmetic Error', function () {
-    //    assert.strictEqual(ns.toClosest(1.5, .6), 1.8);// FIXME: actual: 1.7999999999999998
-    //});
+    it('Floating Point Arithmetic Error', function () {
+        assert.strictEqual(ns.toClosest(1.5, .6), 1.8);
+    });
     it('Positive String', function () {
         assert.strictEqual(ns.toClosest("1234.5", 5), 1235);
     });
