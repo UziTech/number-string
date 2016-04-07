@@ -43,12 +43,10 @@ exports.toClean = function (number, options) {// 1.500000 -> 1.5; 1.0000 -> 1
     maxPrecision = defProp(options.maxPrecision, 20);
     minPrecision = defProp(options.minPrecision, 0);
     
-    maxPrecision = (maxPrecision > 20 ? 20 : (maxPrecision < 0 ? 0 : maxPrecision));
-    minPrecision = (minPrecision < 0 ? 0 : (minPrecision > 20 ? 20 : minPrecision));
+    maxPrecision = (maxPrecision > 10 ? 10 : (maxPrecision < 0 ? 0 : maxPrecision));
+    minPrecision = (minPrecision < 0 ? 0 : (minPrecision > 10 ? 10 : minPrecision));
     if (minPrecision > maxPrecision) {
-        var temp = maxPrecision;
-        maxPrecision = minPrecision;
-        minPrecision = temp;
+        throw Error("minPrecision must be <= maxPrecision");
     }
     var n = number;
     
@@ -135,8 +133,15 @@ exports.toClosest = function (number, roundTo) {
     if (number === Infinity || number === -Infinity) {
         return number;
     }
+    console.log(roundTo);
+    if (typeof roundTo !== "number") {
+        roundTo = this.toNumber(roundTo);
+    }
     if (isNaN(roundTo)) {
-        return NaN;
+        throw Error("roundTo must be a number");
+    }
+    if (roundTo === Infinity || roundTo === -Infinity) {
+        return roundTo;
     }
     var n = Math.round(number / roundTo) * roundTo;
     return n;

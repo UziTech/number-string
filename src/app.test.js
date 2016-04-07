@@ -42,7 +42,7 @@ describe('toNumber', function () {
         assert.ok(isNaN(ns.toNumber([1, 2, 3])));
     });
     it('Change Decimal Mark', function () {
-        assert.strictEqual(ns.toNumber("2,2", {decimalMark: ","}), 2.2);
+        assert.strictEqual(ns.toNumber("2,2", { decimalMark: "," }), 2.2);
     });
 });
 
@@ -71,9 +71,9 @@ describe('toClean', function () {
     it('Array', function () {
         assert.strictEqual(ns.toClean([1, 2, 3]), "NaN");
     });
-
+    
     it('Change Decimal Mark', function () {
-        assert.strictEqual(ns.toClean(1234.5, {decimalMark: ","}), "1,234,5");
+        assert.strictEqual(ns.toClean(1234.5, { decimalMark: "," }), "1,234,5");
     });
     it('Change Thousands Seperator', function () {
         assert.strictEqual(ns.toClean(1234.5, { thousandSeperator: "." }), "1.234.5");
@@ -83,6 +83,25 @@ describe('toClean', function () {
     });
     it('Change Min Precision', function () {
         assert.strictEqual(ns.toClean(1234.5, { minPrecision: 3 }), "1,234.500");
+    });
+    it('Change Min Precision No Decimal', function () {
+        assert.strictEqual(ns.toClean(1234, { minPrecision: 3 }), "1,234.000");
+    });
+    
+    it('Max Precision < 0', function () {
+        assert.strictEqual(ns.toClean(1234, { maxPrecision: -1 }), "1,234");
+    });
+    it('Max Precision > 10', function () {
+        assert.strictEqual(ns.toClean(1234.12345678901, { maxPrecision: 11 }), "1,234.123456789");
+    });
+    it('Min Precision < 0', function () {
+        assert.strictEqual(ns.toClean(1234, { minPrecision: -1 }), "1,234");
+    });
+    it('Min Precision > 10', function () {
+        assert.strictEqual(ns.toClean(1234.5, { minPrecision: 11 }), "1,234.5000000000");
+    });
+    it('minPrecision > maxPrecision Error', function () {
+        assert.throws(function () { ns.toClean(1234, { minPrecision: 3, maxPrecision: 2 }) });
     });
 });
 
@@ -168,5 +187,18 @@ describe('toClosest', function () {
     });
     it('Array', function () {
         assert.ok(isNaN(ns.toClosest([1, 2, 3], 1)));
+    });
+    
+    it('Round To String', function () {
+        assert.strictEqual(ns.toClosest(1234.5, "5"), 1235);
+    });
+    it('Round To NaN', function () {
+        assert.throws(function () { ns.toClosest(1234, NaN) });
+    });
+    it('Round To Ininity', function () {
+        assert.strictEqual(ns.toClosest(1234.5, Infinity), Infinity);
+    });
+    it('Round To -Ininity', function () {
+        assert.strictEqual(ns.toClosest(1234.5, -Infinity), -Infinity);
     });
 });

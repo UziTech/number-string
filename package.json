@@ -5,8 +5,9 @@
   "main": "app.js",
   "author": "Tony Brix <Tony@Brix.ninja>",
   "scripts": {
-    "commit": "git-cz",
-    "test": "mocha src/app.test.js",
+    "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "commit": "git add . && git-cz",
+    "test": "istanbul cover -x *.test.js node_modules/mocha/bin/_mocha -- -R spec src/app.test.js",
     "test:watch": "mocha src/app.test.js -w",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -30,6 +31,7 @@
     "commitizen": "^2.7.6",
     "cz-conventional-changelog": "^1.1.5",
     "ghooks": "^1.2.0",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
     "semantic-release": "^4.3.5"
   },
@@ -38,7 +40,7 @@
       "path": "node_modules/cz-conventional-changelog"
     },
     "ghooks": {
-      "pre-commit":  "npm test"
+      "pre-commit": "npm test && npm run check-coverage"
     }
   }
 }
