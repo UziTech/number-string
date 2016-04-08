@@ -1,0 +1,1 @@
+require("./app.js")("../dist/app.js");
