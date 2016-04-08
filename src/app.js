@@ -6,7 +6,7 @@
 function toNumber(string, {
 	decimalMark = "."
 } = {}) {
-	if (typeof string === "number") {
+  if (typeof string === "number") {
 		return string;
 	}
 	if (typeof string !== "string") {
@@ -157,18 +157,10 @@ function toClosest(number, roundTo = 1) {
 }
 
 // allows for `import {toNumber, ...} from ...`
-export {
-	toNumber
-};
-export {
-	toClean
-};
-export {
-	toMoney
-};
-export {
-	toClosest
-};
+export { toNumber };
+export { toClean };
+export { toMoney };
+export { toClosest };
 
 // allows for `import mod from ...`
 export default {
