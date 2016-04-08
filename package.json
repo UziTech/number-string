@@ -12,7 +12,7 @@
     "commit": "npm run clean && git add . && git-cz",
     "push": "git push origin master",
     "release": "npm run commit && npm run push",
-    "test": "npm run build && istanbul cover node_modules/mocha/bin/_mocha -- -R spec test/es5.app.js",
+    "test": "npm run build && istanbul cover node_modules/mocha/bin/_mocha -- -R spec test/es5.app.js && npm run clean",
     "test:watch": "mocha test/es6.app.js -w --compilers js:babel-core/register",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -38,7 +38,6 @@
     "codecov": "^1.0.1",
     "commitizen": "^2.7.6",
     "cz-conventional-changelog": "^1.1.5",
-    "eslint-plugin-react": "^4.3.0",
     "ghooks": "^1.2.0",
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
@@ -51,18 +50,6 @@
     },
     "ghooks": {
       "pre-commit": "npm test && npm run check-coverage"
-    }
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "env": {
-      "es6": true
     }
   }
 }
