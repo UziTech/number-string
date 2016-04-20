@@ -7,7 +7,6 @@
   "scripts": {
     "build": "npm run clean && mkdir dist && babel src/app.js -o dist/app.js",
     "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
-    "report-coverage": "cat ./coverage/lcov.info | codecov",
     "clean": "rimraf dist",
     "commit": "npm run clean && git add . && git-cz",
     "push": "git push origin master",
