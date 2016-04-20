@@ -4,6 +4,8 @@
 [![GitHub issues](https://img.shields.io/github/issues/UziTech/number-string.svg)](https://github.com/UziTech/number-string/issues)
 [![GitHub stars](https://img.shields.io/github/stars/UziTech/number-string.svg)](https://github.com/UziTech/number-string/stargazers)
 
+## Usage
+
 ### .toNumber
 
 Convert a string to number disregarding other characters
