@@ -7,6 +7,8 @@
  Usage
 -------
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/UziTech/number-string.svg)](https://greenkeeper.io/)
+
 ### .toNumber
 
 Convert a string to number disregarding other characters
