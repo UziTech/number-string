@@ -13,7 +13,7 @@
     "release": "npm run commit && npm run push",
     "test": "npm run build && istanbul cover node_modules/mocha/bin/_mocha -- -R spec test/es5.app.js && npm run clean",
     "test:watch": "mocha test/es6.app.js -w --compilers js:babel-core/register",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
