@@ -5,8 +5,7 @@ cache:
     - node_modules
 notifications:
   email: false
-node_js:
-  - '4'
+node_js: node
 before_install:
   - npm i -g npm@^2.0.0
 before_script:
