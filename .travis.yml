@@ -1,17 +1,24 @@
 sudo: false
+
 language: node_js
+
 cache:
   directories:
     - node_modules
+    
 notifications:
   email: false
+  
 node_js: node
+
 script:
   - npm test
   - npm run check-coverage
   - npm run build
+  
 after_success:
   - npm run semantic-release
+  
 branches:
   only:
     - master
