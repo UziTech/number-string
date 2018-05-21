@@ -1,12 +1,13 @@
 ﻿function regexpEscape(s) {
+	// eslint-disable-next-line no-useless-escape
 	return s.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/, "\\$&");
 }
 
 
 function toNumber(string, {
-	decimalMark = "."
+	decimalMark = ".",
 } = {}) {
-  if (typeof string === "number") {
+	if (typeof string === "number") {
 		return string;
 	}
 	if (typeof string !== "string") {
@@ -30,7 +31,7 @@ function toClean(number, {
 	decimalMark = ".",
 	thousandSeperator = ",",
 	maxPrecision = 10,
-	minPrecision = 0
+	minPrecision = 0,
 } = {}) { // 1.500000 -> 1.5; 1.0000 -> 1
 	if (typeof number !== "number") {
 		number = toNumber(number, {
@@ -83,7 +84,8 @@ function toMoney(number, {
 	maxPrecision = 2,
 	minPrecision = 2,
 	symbol = "$",
-	symbolBehind = false
+	symbolBehind = false,
+	useParens = true,
 } = {}) { // -1234.56 -> ($1,234.56)
 	if (typeof number !== "number") {
 		number = toNumber(number, {
@@ -97,7 +99,7 @@ function toMoney(number, {
 		return "Infinity";
 	}
 	if (number === -Infinity) {
-		return "(Infinity)";
+		return (useParens ? "(Infinity)" : "-Infinity");
 	}
 
 	if (maxPrecision < 2 && typeof arguments[1].minPrecision === "undefined") {
@@ -120,7 +122,7 @@ function toMoney(number, {
 
 	n = (symbolBehind ? n + " " + symbol : symbol + n);
 	if (negative) {
-		n = "(" + n + ")";
+		n = (useParens ? "(" + n + ")" : "-" + n);
 	}
 	return n;
 }

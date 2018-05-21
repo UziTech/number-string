@@ -153,6 +153,12 @@ module.exports = function(file) {
 		it("Change Symbol Behind", function() {
 			assert.strictEqual(ns.toMoney(1234.5, { symbolBehind: true }), "1,234.50 $");
 		});
+		it("Change Use Parens", function() {
+			assert.strictEqual(ns.toMoney(-1234.5, { useParens: false }), "-$1,234.50");
+		});
+		it("Change Use Parens, -Infinity", function() {
+			assert.strictEqual(ns.toMoney(-Infinity, { useParens: false }), "-Infinity");
+		});
 
 	});
 
