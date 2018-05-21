@@ -13,38 +13,77 @@
 
 Convert a string to number disregarding other characters
 
-```javascript
+```js
 var ns = require("number-string");
 
 ns.toNumber("$1.57"); // 1.57
+```
+
+Parameters:
+
+```js
+ns.toNumber(stringOrNumber, {
+  decimalMark = ".",
+});
 ```
 
 ### .toClean
 
 Like toFixed but removes trailing 0's
 
-```javascript
+```js
 var ns = require("number-string");
 
 ns.toClean(1.5009, {maxPrecision: 2}); // "1.5"
+```
+
+Parameters:
+
+```js
+ns.toClean(stringOrNumber, {
+	decimalMark = ".",
+	thousandSeperator = ",",
+	maxPrecision = 10,
+	minPrecision = 0,
+});
 ```
 
 ### .toMoney
 
 Converts number to currency
 
-```javascript
+```js
 var ns = require("number-string");
 
 ns.toMoney(-1234.5); // "($1234.50)"
+```
+
+Parameters:
+
+```js
+ns.toMoney(stringOrNumber, {
+	decimalMark = ".",
+	thousandSeperator = ",",
+	maxPrecision = 2,
+	minPrecision = 2,
+	symbol = "$",
+	symbolBehind = false,
+	useParens = true,
+});
 ```
 
 ### .toClosest
 
 Rounds to the closest interval
 
-```javascript
+```js
 var ns = require("number-string");
 
 ns.toClosest(12.6, 7.1); // 14.2
+```
+
+Parameters:
+
+```js
+ns.toClosest(stringOrNumber, roundToNearestNumber);
 ```
