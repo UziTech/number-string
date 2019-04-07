@@ -45,7 +45,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "ghooks": "^2.0.4",
     "istanbul": "^0.4.5",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.0",
     "rimraf": "^2.6.3",
     "semantic-release": "^15.13.3"
   },
