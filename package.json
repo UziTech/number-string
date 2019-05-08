@@ -39,7 +39,7 @@
     "@semantic-release/github": "^5.2.10",
     "@semantic-release/npm": "^5.1.4",
     "@semantic-release/release-notes-generator": "^7.1.4",
-    "assert": "^1.4.1",
+    "assert": "^1.5.0",
     "codecov": "^3.3.0",
     "commitizen": "^3.1.1",
     "cz-conventional-changelog": "^2.1.0",
