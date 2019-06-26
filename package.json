@@ -38,7 +38,7 @@
     "@semantic-release/git": "^7.0.14",
     "@semantic-release/github": "^5.4.0",
     "@semantic-release/npm": "^5.1.13",
-    "@semantic-release/release-notes-generator": "^7.2.0",
+    "@semantic-release/release-notes-generator": "^7.2.1",
     "assert": "^2.0.0",
     "codecov": "^3.5.0",
     "commitizen": "^3.1.1",
