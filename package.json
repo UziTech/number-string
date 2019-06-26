@@ -35,9 +35,9 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@semantic-release/commit-analyzer": "^6.2.0",
-    "@semantic-release/git": "^7.0.13",
+    "@semantic-release/git": "^7.0.14",
     "@semantic-release/github": "^5.4.0",
-    "@semantic-release/npm": "^5.1.12",
+    "@semantic-release/npm": "^5.1.13",
     "@semantic-release/release-notes-generator": "^7.2.0",
     "assert": "^2.0.0",
     "codecov": "^3.5.0",
@@ -47,7 +47,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
     "rimraf": "^2.6.3",
-    "semantic-release": "^15.13.17"
+    "semantic-release": "^15.13.18"
   },
   "release": {
     "plugins": [
