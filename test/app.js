@@ -1,7 +1,6 @@
-﻿var assert = require("assert");
+const assert = require("assert");
 module.exports = function(file) {
-	var ns = require(file);
-
+	const ns = require(file);
 
 	describe("toNumber", function() {
 		it("Positive Number", function() {
