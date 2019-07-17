@@ -11,6 +11,7 @@
     "commit": "npm run clean && git add . && git-cz",
     "push": "git push origin master",
     "release": "npm run commit && npm run push",
+    "lint": "eslint .",
     "test": "npm run build && istanbul cover node_modules/mocha/bin/_mocha -- -R spec test/es5.app.js && npm run clean",
     "test:watch": "mocha test/es6.app.js -w --compilers js:babel-core/register",
     "semantic-release": "semantic-release"
@@ -43,6 +44,7 @@
     "codecov": "^3.5.0",
     "commitizen": "^3.1.1",
     "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^6.0.1",
     "ghooks": "^2.0.4",
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
@@ -63,7 +65,7 @@
       "path": "node_modules/cz-conventional-changelog"
     },
     "ghooks": {
-      "pre-commit": "npm test && npm run check-coverage"
+      "pre-commit": "npm run lint && npm test && npm run check-coverage"
     }
   }
 }
