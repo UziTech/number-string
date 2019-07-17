@@ -53,7 +53,7 @@ Converts number to currency
 ```js
 var ns = require("number-string");
 
-ns.toMoney(-1234.5); // "($1234.50)"
+ns.toMoney(-1234.5); // "($1,234.50)"
 ```
 
 Parameters:
