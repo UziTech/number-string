@@ -43,7 +43,7 @@
     "@semantic-release/release-notes-generator": "^7.2.1",
     "assert": "^2.0.0",
     "codecov": "^3.5.0",
-    "commitizen": "^3.1.1",
+    "commitizen": "^3.1.2",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.0.1",
     "ghooks": "^2.0.4",
