@@ -3,6 +3,7 @@
   "version": "1.1.2",
   "description": "Functions to format number to string",
   "main": "dist/app.js",
+  "module": "src/app.js",
   "author": "Tony Brix <Tony@Brix.ninja>",
   "scripts": {
     "build": "npm run clean && mkdir dist && babel src/app.js -o dist/app.js",
