@@ -247,3 +247,5 @@ ModelManifest.xml
 
 # vs code
 .vscode/
+
+dist
