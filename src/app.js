@@ -1,6 +1,5 @@
 ﻿function regexpEscape(s) {
-	// eslint-disable-next-line no-useless-escape
-	return s.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/, "\\$&");
+	return s.replace(/[-[\]/{}()*+?.\\^$|]/, "\\$&");
 }
 
 
@@ -164,7 +163,7 @@ export { toClean };
 export { toMoney };
 export { toClosest };
 
-// allows for `import mod from ...`
+// allows for `import ns from ...`
 export default {
 	toNumber,
 	toClean,
