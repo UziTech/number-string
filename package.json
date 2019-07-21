@@ -42,7 +42,7 @@
     "@semantic-release/npm": "^5.1.13",
     "@semantic-release/release-notes-generator": "^7.2.1",
     "assert": "^2.0.0",
-    "eslint": "^6.0.1",
+    "eslint": "^6.1.0",
     "husky": "3.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
