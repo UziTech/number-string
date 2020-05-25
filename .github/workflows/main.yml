@@ -35,7 +35,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Check Coverage 🏁
-        run: npm run check-coverage
+        run: |
+          npm run test
+          npm run check-coverage
 
   Lint:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
