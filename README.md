@@ -1,4 +1,4 @@
-﻿[![Travis](https://img.shields.io/travis/UziTech/number-string.svg?branch=master)](https://travis-ci.org/UziTech/number-string)
+[![Actions Status](https://github.com/UziTech/number-string/workflows/CI/badge.svg)](https://github.com/UziTech/number-string/actions)
 [![npm downloads](https://img.shields.io/npm/dm/number-string.svg)](https://www.npmjs.com/package/number-string)
 [![npm License](https://img.shields.io/npm/l/number-string.svg)](https://spdx.org/licenses/MIT)
 [![GitHub issues](https://img.shields.io/github/issues/UziTech/number-string.svg)](https://github.com/UziTech/number-string/issues)
