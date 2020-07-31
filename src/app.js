@@ -1,5 +1,5 @@
 ﻿function regexpEscape(s) {
-	return s.replace(/[-[\]/{}()*+?.\\^$|]/, "\\$&");
+	return s.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
 }
 
 
