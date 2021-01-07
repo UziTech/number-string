@@ -42,7 +42,7 @@
     "@semantic-release/release-notes-generator": "^9.0.1",
     "assert": "^2.0.0",
     "eslint": "^7.17.0",
-    "husky": "4.3.6",
+    "husky": "4.3.7",
     "istanbul": "^0.4.5",
     "mocha": "^8.2.1",
     "rimraf": "^3.0.2",
