@@ -1,20 +1,31 @@
-﻿function regexpEscape(s) {
+/**
+ * Escape special RegExp characters in string
+ * @param  {string} s String to escape
+ * @return {string} Escaped string
+ */
+function regexpEscape(s) {
 	return s.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
 }
 
-
-function toNumber(string, {
+/**
+ * Convert value to number
+ * @param  {string|number} value Value
+ * @param  {object} [options={}] Options
+ * @param  {string} [options.decimalMark="."] Decimal mark character
+ * @return {number} Number
+ */
+export function toNumber(value, {
 	decimalMark = ".",
 } = {}) {
-	if (typeof string === "number") {
-		return string;
+	if (typeof value === "number") {
+		return value;
 	}
-	if (typeof string !== "string") {
+	if (typeof value !== "string") {
 		return NaN;
 	}
 
 	const regexpDecimalMark = regexpEscape(decimalMark);
-	let n = string.trim();
+	let n = value.trim();
 	const negative = n.match(/^\(.*\)$|^-/); //negative if matches '(...)' or '-...'
 	const getNumberRegexp = new RegExp("[^\\d" + regexpDecimalMark + "]|" + regexpDecimalMark + "(?=.*" + regexpDecimalMark + ")|^\\D*" + regexpDecimalMark + "\\D*$", "g");
 	n = n.replace(getNumberRegexp, "").replace(decimalMark, "."); //remove all except digits and last dot
@@ -26,18 +37,28 @@ function toNumber(string, {
 	return Number(n);
 }
 
-function toClean(number, {
+/**
+ * Like `toFixed` but removes trailing zeros
+ * @param  {string|number} value Value
+ * @param  {object} [options={}] Options
+ * @param  {string} [options.decimalMark="."] Decimal mark character
+ * @param  {string} [options.thousandSeperator=","] Thousands separator character
+ * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
+ * @param  {number} [options.minPrecision=0] Minimum number of decimal places
+ * @return {string} Cleaned value
+ */
+export function toClean(value, {
 	decimalMark = ".",
 	thousandSeperator = ",",
 	maxPrecision = 10,
 	minPrecision = 0,
 } = {}) { // 1.500000 -> 1.5; 1.0000 -> 1
-	if (typeof number !== "number") {
-		number = toNumber(number, {
+	if (typeof value !== "number") {
+		value = toNumber(value, {
 			decimalMark
 		});
 	}
-	if (isNaN(number)) {
+	if (isNaN(value)) {
 		return "NaN";
 	}
 
@@ -46,7 +67,7 @@ function toClean(number, {
 	if (minPrecision > maxPrecision) {
 		throw Error("minPrecision must be <= maxPrecision");
 	}
-	let n = number;
+	let n = value;
 
 	//limit to maxPrecision
 	n = String(+n.toFixed(maxPrecision));
@@ -76,8 +97,21 @@ function toClean(number, {
 	return n;
 }
 
-//modified from http://stackoverflow.com/a/149099/806777
-function toMoney(number, {
+/**
+ * Convert string or number to currency string
+ * modified from http://stackoverflow.com/a/149099/806777\
+ * @param  {string|number} value Value
+ * @param  {object} [options={}] Options
+ * @param  {string} [options.decimalMark="."] Decimal mark character
+ * @param  {string} [options.thousandSeperator=","] Thousands separator character
+ * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
+ * @param  {number} [options.minPrecision=0] Minimum number of decimal places
+ * @param  {string} [options.symbol="$"] Currency symbol character
+ * @param  {bool} [options.symbolBehind=false] Place currency symbol behind number
+ * @param  {bool} [options.useParens=true] Use parentheses for negative values
+ * @return {string} Value to currency string
+ */
+export function toMoney(value, {
 	decimalMark = ".",
 	thousandSeperator = ",",
 	maxPrecision = 2,
@@ -86,18 +120,18 @@ function toMoney(number, {
 	symbolBehind = false,
 	useParens = true,
 } = {}) { // -1234.56 -> ($1,234.56)
-	if (typeof number !== "number") {
-		number = toNumber(number, {
+	if (typeof value !== "number") {
+		value = toNumber(value, {
 			decimalMark
 		});
 	}
-	if (isNaN(number)) {
+	if (isNaN(value)) {
 		return "NaN";
 	}
-	if (number === Infinity) {
+	if (value === Infinity) {
 		return "Infinity";
 	}
-	if (number === -Infinity) {
+	if (value === -Infinity) {
 		return (useParens ? "(Infinity)" : "-Infinity");
 	}
 
@@ -109,8 +143,8 @@ function toMoney(number, {
 	}
 
 
-	const negative = number < 0;
-	let n = Math.abs(number);
+	const negative = value < 0;
+	let n = Math.abs(value);
 
 	n = toClean(n, {
 		decimalMark,
@@ -126,15 +160,21 @@ function toMoney(number, {
 	return n;
 }
 
-function toClosest(number, roundTo = 1) {
-	if (typeof number !== "number") {
-		number = toNumber(number);
+/**
+ * Round number to closest multiple of number
+ * @param  {string|number} value Value
+ * @param  {number} [roundTo=1] Round to multiple of this number
+ * @return {number} Rounded number
+ */
+export function toClosest(value, roundTo = 1) {
+	if (typeof value !== "number") {
+		value = toNumber(value);
 	}
-	if (isNaN(number)) {
+	if (isNaN(value)) {
 		return NaN;
 	}
-	if (number === Infinity || number === -Infinity) {
-		return number;
+	if (value === Infinity || value === -Infinity) {
+		return value;
 	}
 
 	if (typeof roundTo !== "number") {
@@ -146,7 +186,7 @@ function toClosest(number, roundTo = 1) {
 	if (roundTo === Infinity || roundTo === -Infinity) {
 		return roundTo;
 	}
-	let n = Math.round(number / roundTo) * roundTo;
+	let n = Math.round(value / roundTo) * roundTo;
 
 	let maxPrecision = 0;
 	while (!Number.isInteger(roundTo)) {
@@ -156,12 +196,6 @@ function toClosest(number, roundTo = 1) {
 	n = +n.toFixed(maxPrecision);
 	return n;
 }
-
-// allows for `import {toNumber, ...} from ...`
-export { toNumber };
-export { toClean };
-export { toMoney };
-export { toClosest };
 
 // allows for `import ns from ...`
 export default {
