@@ -27,7 +27,7 @@ export function toNumber(value, {
 	const regexpDecimalMark = regexpEscape(decimalMark);
 	let n = value.trim();
 	const negative = n.match(/^\(.*\)$|^-/); //negative if matches '(...)' or '-...'
-	const getNumberRegexp = new RegExp("[^\\d" + regexpDecimalMark + "]|" + regexpDecimalMark + "(?=.*" + regexpDecimalMark + ")|^\\D*" + regexpDecimalMark + "\\D*$", "g");
+	const getNumberRegexp = new RegExp(`[^\\d${regexpDecimalMark}]|${regexpDecimalMark}(?=.*${regexpDecimalMark})|^\\D*${regexpDecimalMark}\\D*$`, "g");
 	n = n.replace(getNumberRegexp, "").replace(decimalMark, "."); //remove all except digits and last dot
 	if (n === "") {
 		n = NaN;
@@ -71,7 +71,7 @@ export function toClean(value, {
 
 	//limit to maxPrecision
 	n = String(+n.toFixed(maxPrecision));
-	let dotIndex = n.lastIndexOf(".");
+	const dotIndex = n.lastIndexOf(".");
 	if (dotIndex > -1) {
 		n = n.slice(0, dotIndex) + decimalMark + n.slice(dotIndex + 1);
 	} else {
@@ -90,9 +90,9 @@ export function toClean(value, {
 		}
 	}
 	const regexpDecimalMark = regexpEscape(decimalMark);
-	const thousandSeperatorRegexp = new RegExp("\\d(?=(\\d{3})+" + regexpDecimalMark + ")", "g");
-	const trimRegexp = new RegExp(regexpDecimalMark + "$");
-	n = n.replace(thousandSeperatorRegexp, "$&" + thousandSeperator).replace(trimRegexp, "");
+	const thousandSeperatorRegexp = new RegExp(`\\d(?=(\\d{3})+${regexpDecimalMark})`, "g");
+	const trimRegexp = new RegExp(`${regexpDecimalMark}$`);
+	n = n.replace(thousandSeperatorRegexp, `$&${thousandSeperator}`).replace(trimRegexp, "");
 
 	return n;
 }
@@ -153,9 +153,9 @@ export function toMoney(value, {
 		minPrecision
 	});
 
-	n = (symbolBehind ? n + " " + symbol : symbol + n);
+	n = (symbolBehind ? `${n} ${symbol}` : symbol + n);
 	if (negative) {
-		n = (useParens ? "(" + n + ")" : "-" + n);
+		n = (useParens ? `(${n})` : `-${n}`);
 	}
 	return n;
 }
