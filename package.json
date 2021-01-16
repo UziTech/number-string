@@ -4,9 +4,10 @@
   "description": "Functions to format number to string",
   "main": "dist/app.js",
   "module": "src/app.js",
+  "types": "types/app.d.ts",
   "author": "Tony Brix <Tony@Brix.ninja>",
   "scripts": {
-    "build": "npm run clean && mkdir dist && babel src/app.js -o dist/app.js",
+    "build": "npm run clean && mkdir dist && babel src/app.js -o dist/app.js && tsc",
     "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "clean": "rimraf dist",
     "lint": "eslint .",
@@ -33,8 +34,6 @@
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/register": "^7.12.10",
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^7.2.0",
@@ -42,11 +41,11 @@
     "@semantic-release/release-notes-generator": "^9.0.1",
     "assert": "^2.0.0",
     "eslint": "^7.18.0",
-    "husky": "4.3.7",
     "istanbul": "^0.4.5",
     "mocha": "^8.2.1",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.3.3"
+    "semantic-release": "^17.3.3",
+    "typescript": "^4.1.3"
   },
   "release": {
     "plugins": [
@@ -56,16 +55,5 @@
       "@semantic-release/github",
       "@semantic-release/git"
     ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm test && npm run check-coverage",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }
