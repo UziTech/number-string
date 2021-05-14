@@ -6,23 +6,23 @@
  * @return {number} Number
  */
 export function toNumber(value: string | number, { decimalMark, }?: {
-    decimalMark: string;
+    decimalMark?: string;
 }): number;
 /**
  * Like `toFixed` but removes trailing zeros
  * @param  {string|number} value Value
  * @param  {object} [options={}] Options
  * @param  {string} [options.decimalMark="."] Decimal mark character
- * @param  {string} [options.thousandSeperator=","] Thousands separator character
+ * @param  {string} [options.thousandSeparator=","] Thousands separator character
  * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
  * @param  {number} [options.minPrecision=0] Minimum number of decimal places
  * @return {string} Cleaned value
  */
-export function toClean(value: string | number, { decimalMark, thousandSeperator, maxPrecision, minPrecision, }?: {
-    decimalMark: string;
-    thousandSeperator: string;
-    maxPrecision: number;
-    minPrecision: number;
+export function toClean(value: string | number, { decimalMark, thousandSeperator, thousandSeparator, maxPrecision, minPrecision, }?: {
+    decimalMark?: string;
+    thousandSeparator?: string;
+    maxPrecision?: number;
+    minPrecision?: number;
 }): string;
 /**
  * Convert string or number to currency string
@@ -30,7 +30,7 @@ export function toClean(value: string | number, { decimalMark, thousandSeperator
  * @param  {string|number} value Value
  * @param  {object} [options={}] Options
  * @param  {string} [options.decimalMark="."] Decimal mark character
- * @param  {string} [options.thousandSeperator=","] Thousands separator character
+ * @param  {string} [options.thousandSeparator=","] Thousands separator character
  * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
  * @param  {number} [options.minPrecision=0] Minimum number of decimal places
  * @param  {string} [options.symbol="$"] Currency symbol character
@@ -38,14 +38,14 @@ export function toClean(value: string | number, { decimalMark, thousandSeperator
  * @param  {bool} [options.useParens=true] Use parentheses for negative values
  * @return {string} Value to currency string
  */
-export function toMoney(value: string | number, { decimalMark, thousandSeperator, maxPrecision, minPrecision, symbol, symbolBehind, useParens, }?: {
-    decimalMark: string;
-    thousandSeperator: string;
-    maxPrecision: number;
-    minPrecision: number;
-    symbol: string;
-    symbolBehind: any;
-    useParens: any;
+export function toMoney(value: string | number, { decimalMark, thousandSeperator, thousandSeparator, maxPrecision, minPrecision, symbol, symbolBehind, useParens, }?: {
+    decimalMark?: string;
+    thousandSeparator?: string;
+    maxPrecision?: number;
+    minPrecision?: number;
+    symbol?: string;
+    symbolBehind?: any;
+    useParens?: any;
 }, ...args: any[]): string;
 /**
  * Round number to closest multiple of number
