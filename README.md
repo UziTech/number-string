@@ -40,7 +40,7 @@ Parameters:
 ```js
 ns.toClean(stringOrNumber, {
 	decimalMark = ".",
-	thousandSeperator = ",",
+	thousandSeparator = ",",
 	maxPrecision = 10,
 	minPrecision = 0,
 });
@@ -61,7 +61,7 @@ Parameters:
 ```js
 ns.toMoney(stringOrNumber, {
 	decimalMark = ".",
-	thousandSeperator = ",",
+	thousandSeparator = ",",
 	maxPrecision = 2,
 	minPrecision = 2,
 	symbol = "$",

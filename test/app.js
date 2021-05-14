@@ -76,8 +76,11 @@ module.exports = function(file) {
 		it("Change Decimal Mark", function() {
 			assert.strictEqual(ns.toClean(1234.5, { decimalMark: "," }), "1,234,5");
 		});
-		it("Change Thousands Seperator", function() {
+		it("Change Deprecated Thousands Seperator", function() {
 			assert.strictEqual(ns.toClean(1234.5, { thousandSeperator: "." }), "1.234.5");
+		});
+		it("Change Thousands Separator", function() {
+			assert.strictEqual(ns.toClean(1234.5, { thousandSeparator: "." }), "1.234.5");
 		});
 		it("Change Max Precision", function() {
 			assert.strictEqual(ns.toClean(1234.5, { maxPrecision: 0 }), "1,235");
@@ -137,8 +140,11 @@ module.exports = function(file) {
 		it("Change Decimal Mark", function() {
 			assert.strictEqual(ns.toMoney(1234.5, { decimalMark: "," }), "$1,234,50");
 		});
-		it("Change Thousands Seperator", function() {
+		it("Change Deprecated Thousands Seperator", function() {
 			assert.strictEqual(ns.toMoney(1234.5, { thousandSeperator: "." }), "$1.234.50");
+		});
+		it("Change Thousands Separator", function() {
+			assert.strictEqual(ns.toMoney(1234.5, { thousandSeparator: "." }), "$1.234.50");
 		});
 		it("Change Max Precision", function() {
 			assert.strictEqual(ns.toMoney(1234.5, { maxPrecision: 0 }), "$1,235");

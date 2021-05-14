@@ -42,17 +42,25 @@ export function toNumber(value, {
  * @param  {string|number} value Value
  * @param  {object} [options={}] Options
  * @param  {string} [options.decimalMark="."] Decimal mark character
- * @param  {string} [options.thousandSeperator=","] Thousands separator character
+ * @param  {string} [options.thousandSeparator=","] Thousands separator character
  * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
  * @param  {number} [options.minPrecision=0] Minimum number of decimal places
  * @return {string} Cleaned value
  */
 export function toClean(value, {
 	decimalMark = ".",
-	thousandSeperator = ",",
+	/**
+	 * @deprecated use thousandSeparator instead.
+	 */
+	thousandSeperator = null,
+	thousandSeparator = ",",
 	maxPrecision = 10,
 	minPrecision = 0,
 } = {}) { // 1.500000 -> 1.5; 1.0000 -> 1
+	if (thousandSeperator) {
+		thousandSeparator = thousandSeperator;
+		console.error("`thousandSeperator` is deprecated use `thousandSeparator` instead.");
+	}
 	if (typeof value !== "number") {
 		value = toNumber(value, {
 			decimalMark
@@ -90,9 +98,9 @@ export function toClean(value, {
 		}
 	}
 	const regexpDecimalMark = regexpEscape(decimalMark);
-	const thousandSeperatorRegexp = new RegExp(`\\d(?=(\\d{3})+${regexpDecimalMark})`, "g");
+	const thousandSeparatorRegexp = new RegExp(`\\d(?=(\\d{3})+${regexpDecimalMark})`, "g");
 	const trimRegexp = new RegExp(`${regexpDecimalMark}$`);
-	n = n.replace(thousandSeperatorRegexp, `$&${thousandSeperator}`).replace(trimRegexp, "");
+	n = n.replace(thousandSeparatorRegexp, `$&${thousandSeparator}`).replace(trimRegexp, "");
 
 	return n;
 }
@@ -103,7 +111,7 @@ export function toClean(value, {
  * @param  {string|number} value Value
  * @param  {object} [options={}] Options
  * @param  {string} [options.decimalMark="."] Decimal mark character
- * @param  {string} [options.thousandSeperator=","] Thousands separator character
+ * @param  {string} [options.thousandSeparator=","] Thousands separator character
  * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
  * @param  {number} [options.minPrecision=0] Minimum number of decimal places
  * @param  {string} [options.symbol="$"] Currency symbol character
@@ -113,13 +121,21 @@ export function toClean(value, {
  */
 export function toMoney(value, {
 	decimalMark = ".",
-	thousandSeperator = ",",
+	/**
+	 * @deprecated use thousandSeparator instead.
+	 */
+	thousandSeperator = null,
+	thousandSeparator = ",",
 	maxPrecision = 2,
 	minPrecision = 2,
 	symbol = "$",
 	symbolBehind = false,
 	useParens = true,
 } = {}) { // -1234.56 -> ($1,234.56)
+	if (thousandSeperator) {
+		thousandSeparator = thousandSeperator;
+		console.error("`thousandSeperator` is deprecated use `thousandSeparator` instead.");
+	}
 	if (typeof value !== "number") {
 		value = toNumber(value, {
 			decimalMark
@@ -148,7 +164,7 @@ export function toMoney(value, {
 
 	n = toClean(n, {
 		decimalMark,
-		thousandSeperator,
+		thousandSeparator,
 		maxPrecision,
 		minPrecision
 	});
