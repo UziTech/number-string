@@ -1,6 +1,6 @@
 {
   "name": "number-string",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Functions to format number to string",
   "main": "dist/app.js",
   "module": "src/app.js",
