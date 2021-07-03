@@ -42,7 +42,7 @@
     "assert": "^2.0.0",
     "eslint": "^7.30.0",
     "istanbul": "^0.4.5",
-    "mocha": "^9.0.1",
+    "mocha": "^9.0.2",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.4.4",
     "typescript": "^4.3.5"
