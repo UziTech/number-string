@@ -43,7 +43,7 @@ export function toNumber(value, {
  * @param  {object} [options={}] Options
  * @param  {string} [options.decimalMark="."] Decimal mark character
  * @param  {string} [options.thousandSeparator=","] Thousands separator character
- * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
+ * @param  {number} [options.maxPrecision=20] Maximum number of decimal places
  * @param  {number} [options.minPrecision=0] Minimum number of decimal places
  * @return {string} Cleaned value
  */
@@ -54,7 +54,7 @@ export function toClean(value, {
 	 */
 	thousandSeperator = null,
 	thousandSeparator = ",",
-	maxPrecision = 10,
+	maxPrecision = 20,
 	minPrecision = 0,
 } = {}) { // 1.500000 -> 1.5; 1.0000 -> 1
 	if (thousandSeperator) {
@@ -70,8 +70,8 @@ export function toClean(value, {
 		return "NaN";
 	}
 
-	maxPrecision = (maxPrecision > 10 ? 10 : (maxPrecision < 0 ? 0 : maxPrecision));
-	minPrecision = (minPrecision < 0 ? 0 : (minPrecision > 10 ? 10 : minPrecision));
+	maxPrecision = (maxPrecision > 20 ? 20 : (maxPrecision < 0 ? 0 : maxPrecision));
+	minPrecision = (minPrecision < 0 ? 0 : (minPrecision > 20 ? 20 : minPrecision));
 	if (minPrecision > maxPrecision) {
 		throw Error("minPrecision must be <= maxPrecision");
 	}
@@ -112,7 +112,7 @@ export function toClean(value, {
  * @param  {object} [options={}] Options
  * @param  {string} [options.decimalMark="."] Decimal mark character
  * @param  {string} [options.thousandSeparator=","] Thousands separator character
- * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
+ * @param  {number} [options.maxPrecision=20] Maximum number of decimal places
  * @param  {number} [options.minPrecision=0] Minimum number of decimal places
  * @param  {string} [options.symbol="$"] Currency symbol character
  * @param  {bool} [options.symbolBehind=false] Place currency symbol behind number
