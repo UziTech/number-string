@@ -46,7 +46,7 @@ export function toMoney(value: string | number, { decimalMark, thousandSeperator
     symbol?: string;
     symbolBehind?: any;
     useParens?: any;
-}, ...args: any[]): string;
+}): string;
 /**
  * Round number to closest multiple of number
  * @param  {string|number} value Value
