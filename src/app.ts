@@ -3,20 +3,20 @@
  * @param  {string} s String to escape
  * @return {string} Escaped string
  */
-function regexpEscape(s) {
-	return s.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&");
+function regexpEscape(s: string): string {
+	return s.replace(/[-[\]/{}()*+?.\\^$]/g, "\\$&");
+}
+
+export interface ToNumberOptions {
+	decimalMark?: string
 }
 
 /**
  * Convert value to number
- * @param  {string|number} value Value
- * @param  {object} [options={}] Options
- * @param  {string} [options.decimalMark="."] Decimal mark character
- * @return {number} Number
  */
-export function toNumber(value, {
+export function toNumber(value: string | number, {
 	decimalMark = ".",
-} = {}) {
+}: ToNumberOptions = {}): number {
 	if (typeof value === "number") {
 		return value;
 	}
@@ -25,7 +25,7 @@ export function toNumber(value, {
 	}
 
 	const regexpDecimalMark = regexpEscape(decimalMark);
-	let n = value.trim();
+	let n: string | number = value.trim();
 	const negative = n.match(/^\(.*\)$|^-/); //negative if matches '(...)' or '-...'
 	const getNumberRegexp = new RegExp(`[^\\d${regexpDecimalMark}]|${regexpDecimalMark}(?=.*${regexpDecimalMark})|^\\D*${regexpDecimalMark}\\D*$`, "g");
 	n = n.replace(getNumberRegexp, "").replace(decimalMark, "."); //remove all except digits and last dot
@@ -37,26 +37,25 @@ export function toNumber(value, {
 	return Number(n);
 }
 
+export interface ToCleanOptions {
+	decimalMark?: string
+	/** @deprecated use thousandSeparator instead. */
+	thousandSeperator?: string | null
+	thousandSeparator?: string
+	maxPrecision?: number
+	minPrecision?: number
+}
+
 /**
  * Like `toFixed` but removes trailing zeros
- * @param  {string|number} value Value
- * @param  {object} [options={}] Options
- * @param  {string} [options.decimalMark="."] Decimal mark character
- * @param  {string} [options.thousandSeparator=","] Thousands separator character
- * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
- * @param  {number} [options.minPrecision=0] Minimum number of decimal places
- * @return {string} Cleaned value
  */
-export function toClean(value, {
+export function toClean(value: string | number, {
 	decimalMark = ".",
-	/**
-	 * @deprecated use thousandSeparator instead.
-	 */
 	thousandSeperator = null,
 	thousandSeparator = ",",
 	maxPrecision = 10,
 	minPrecision = 0,
-} = {}) { // 1.500000 -> 1.5; 1.0000 -> 1
+}: ToCleanOptions = {}): string { // 1.500000 -> 1.5; 1.0000 -> 1
 	if (thousandSeperator) {
 		thousandSeparator = thousandSeperator;
 		console.error("`thousandSeperator` is deprecated use `thousandSeparator` instead.");
@@ -75,7 +74,7 @@ export function toClean(value, {
 	if (minPrecision > maxPrecision) {
 		throw Error("minPrecision must be <= maxPrecision");
 	}
-	let n = value;
+	let n: string | number = value;
 
 	//limit to maxPrecision
 	n = String(+n.toFixed(maxPrecision));
@@ -105,25 +104,24 @@ export function toClean(value, {
 	return n;
 }
 
+export interface ToMoneyOptions {
+	decimalMark?: string
+	/** @deprecated use thousandSeparator instead. */
+	thousandSeperator?: string | null
+	thousandSeparator?: string
+	maxPrecision?: number
+	minPrecision?: number
+	symbol?: string
+	symbolBehind?: boolean
+	useParens?: boolean
+}
+
 /**
  * Convert string or number to currency string
  * modified from http://stackoverflow.com/a/149099/806777\
- * @param  {string|number} value Value
- * @param  {object} [options={}] Options
- * @param  {string} [options.decimalMark="."] Decimal mark character
- * @param  {string} [options.thousandSeparator=","] Thousands separator character
- * @param  {number} [options.maxPrecision=10] Maximum number of decimal places
- * @param  {number} [options.minPrecision=0] Minimum number of decimal places
- * @param  {string} [options.symbol="$"] Currency symbol character
- * @param  {bool} [options.symbolBehind=false] Place currency symbol behind number
- * @param  {bool} [options.useParens=true] Use parentheses for negative values
- * @return {string} Value to currency string
  */
-export function toMoney(value, {
+export function toMoney(value: string | number, {
 	decimalMark = ".",
-	/**
-	 * @deprecated use thousandSeparator instead.
-	 */
 	thousandSeperator = null,
 	thousandSeparator = ",",
 	maxPrecision = 2,
@@ -131,7 +129,7 @@ export function toMoney(value, {
 	symbol = "$",
 	symbolBehind = false,
 	useParens = true,
-} = {}) { // -1234.56 -> ($1,234.56)
+}: ToMoneyOptions = {}): string { // -1234.56 -> ($1,234.56)
 	if (thousandSeperator) {
 		thousandSeparator = thousandSeperator;
 		console.error("`thousandSeperator` is deprecated use `thousandSeparator` instead.");
@@ -160,7 +158,7 @@ export function toMoney(value, {
 
 
 	const negative = value < 0;
-	let n = Math.abs(value);
+	let n: string | number = Math.abs(value);
 
 	n = toClean(n, {
 		decimalMark,
@@ -178,11 +176,8 @@ export function toMoney(value, {
 
 /**
  * Round number to closest multiple of number
- * @param  {string|number} value Value
- * @param  {number} [roundTo=1] Round to multiple of this number
- * @return {number} Rounded number
  */
-export function toClosest(value, roundTo = 1) {
+export function toClosest(value: string | number, roundTo: string | number = 1): number {
 	if (typeof value !== "number") {
 		value = toNumber(value);
 	}
@@ -212,11 +207,3 @@ export function toClosest(value, roundTo = 1) {
 	n = +n.toFixed(maxPrecision);
 	return n;
 }
-
-// allows for `import ns from ...`
-export default {
-	toNumber,
-	toClean,
-	toMoney,
-	toClosest
-};
