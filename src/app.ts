@@ -23,7 +23,7 @@ export function toNumberString(value: string | number, {
 	}
 
 	const regexpDecimalMark = regexpEscape(decimalMark);
-	let n: string = value.trim();
+	let n = value.trim();
 	const negative = n.match(/^\(.*\)$|^-/); //negative if matches '(...)' or '-...'
 	const getNumberRegexp = new RegExp(`[^\\d${regexpDecimalMark}]|${regexpDecimalMark}(?=.*${regexpDecimalMark})|^\\D*${regexpDecimalMark}\\D*$`, "g");
 	n = n.replace(getNumberRegexp, "").replace(decimalMark, "."); //remove all except digits and last dot
@@ -91,46 +91,46 @@ export function toClean(value: string | number, {
 	if (minPrecision > maxPrecision) {
 		throw new Error("minPrecision must be <= maxPrecision");
 	}
-	let n: string | number = value;
+	let s = value;
 
 
 	// limit to maxPrecision
-	const dotIndex = n.lastIndexOf(".");
+	const dotIndex = s.lastIndexOf(".");
 
 	if (dotIndex > -1) {
-		let integer = (dotIndex === 0 ? "0" : n.slice(0, dotIndex));
-		let fraction = n.slice(dotIndex + 1, dotIndex + 1 + maxPrecision);
-		const remainder = n.slice(dotIndex + 1 + maxPrecision);
+		let integer = (dotIndex === 0 ? "0" : s.slice(0, dotIndex));
+		let fraction = s.slice(dotIndex + 1, dotIndex + 1 + maxPrecision);
+		const remainder = s.slice(dotIndex + 1 + maxPrecision);
 		if (remainder.length > 0 && +remainder[0] > 4) {
 			// round up
 			const i = (BigInt(integer + fraction) + BigInt(1)).toString(10);
 			integer = i.slice(0, i.length - fraction.length);
 			fraction = i.slice(i.length - fraction.length);
 		}
-		n = integer + decimalMark + fraction;
+		s = integer + decimalMark + fraction;
 	} else {
-		n += decimalMark;
+		s += decimalMark;
 	}
 	// remove trailing 0s
-	n = n.replace(/0+$/, "");
+	s = s.replace(/0+$/, "");
 	// limit to minPrecision
 	if (minPrecision > 0) {
 		let numZeros;
 		if (dotIndex > -1) {
-			numZeros = minPrecision - (n.length - dotIndex - 1);
+			numZeros = minPrecision - (s.length - dotIndex - 1);
 		} else {
 			numZeros = minPrecision;
 		}
 		for (let i = 0; i < numZeros; i++) {
-			n += "0";
+			s += "0";
 		}
 	}
 	const regexpDecimalMark = regexpEscape(decimalMark);
 	const thousandSeparatorRegexp = new RegExp(`\\d(?=(\\d{3})+${regexpDecimalMark})`, "g");
 	const trimRegexp = new RegExp(`${regexpDecimalMark}$`);
-	n = n.replace(thousandSeparatorRegexp, `$&${thousandSeparator}`).replace(trimRegexp, "");
+	s = s.replace(thousandSeparatorRegexp, `$&${thousandSeparator}`).replace(trimRegexp, "");
 
-	return n;
+	return s;
 }
 
 export interface ToMoneyOptions {
@@ -164,13 +164,16 @@ export function toMoney(value: string | number, {
 		console.error("`thousandSeperator` is deprecated use `thousandSeparator` instead.");
 	}
 
-	let n = (typeof value === "number"
-		? value
-		: toNumber(value, {
+	const n = (
+		typeof value === "number"
+			? value
+			: toNumber(value, {
 				decimalMark
 			})
-		);
-	let s = String(value);
+	);
+	let s = toNumberString(value, {
+		decimalMark
+	});
 	if (isNaN(n)) {
 		return "NaN";
 	}
