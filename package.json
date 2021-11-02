@@ -3,9 +3,10 @@
   "version": "1.1.6",
   "description": "Functions to format number to string",
   "main": "dist/app.js",
-  "module": "src/app.js",
-  "types": "types/app.d.ts",
   "author": "Tony Brix <Tony@Brix.ninja>",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npm run clean && tsc",
     "check-coverage": "jest --collectCoverage",
