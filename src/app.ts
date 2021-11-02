@@ -112,7 +112,14 @@ export function toClean(value: string | number, {
 		s += decimalMark;
 	}
 	// remove trailing 0s
-	s = s.replace(/0+$/, "");
+	let rmLen = 0;
+	for (let i = s.length - 1; i >= 0; i--) {
+		if (s[i] !== "0") {
+			break;
+		}
+		rmLen++;
+	}
+	s = s.slice(0, s.length - rmLen);
 	// limit to minPrecision
 	if (minPrecision > 0) {
 		let numZeros;
