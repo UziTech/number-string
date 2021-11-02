@@ -12,15 +12,33 @@
 Convert a string to number disregarding other characters
 
 ```js
-var ns = require("number-string");
+import { toNumber } from "number-string";
 
-ns.toNumber("$1.57"); // 1.57
+toNumber("$1.57"); // 1.57
 ```
 
 Parameters:
 
 ```js
-ns.toNumber(stringOrNumber, {
+toNumber(stringOrNumber, {
+  decimalMark = ".",
+});
+```
+
+### .toNumberString
+
+Convert a string to string of the numbers disregarding other characters
+
+```js
+import { toNumberString } from "number-string";
+
+toNumberString("$1.57"); // "1.57"
+```
+
+Parameters:
+
+```js
+toNumberString(stringOrNumber, {
   decimalMark = ".",
 });
 ```
@@ -30,18 +48,18 @@ ns.toNumber(stringOrNumber, {
 Like toFixed but removes trailing 0's
 
 ```js
-var ns = require("number-string");
+import { toClean } from "number-string";
 
-ns.toClean(1.5009, {maxPrecision: 2}); // "1.5"
+toClean(1.5009, {maxPrecision: 2}); // "1.5"
 ```
 
 Parameters:
 
 ```js
-ns.toClean(stringOrNumber, {
+toClean(stringOrNumber, {
 	decimalMark = ".",
 	thousandSeparator = ",",
-	maxPrecision = 10,
+	maxPrecision = 10, // maximum precision possible is 10 to prevent floating point errors
 	minPrecision = 0,
 });
 ```
@@ -51,18 +69,18 @@ ns.toClean(stringOrNumber, {
 Converts number to currency
 
 ```js
-var ns = require("number-string");
+import { toMoney } from "number-string";
 
-ns.toMoney(-1234.5); // "($1,234.50)"
+toMoney(-1234.5); // "($1,234.50)"
 ```
 
 Parameters:
 
 ```js
-ns.toMoney(stringOrNumber, {
+toMoney(stringOrNumber, {
 	decimalMark = ".",
 	thousandSeparator = ",",
-	maxPrecision = 2,
+	maxPrecision = 2, // maximum precision possible is 10 to prevent floating point errors
 	minPrecision = 2,
 	symbol = "$",
 	symbolBehind = false,
@@ -75,13 +93,13 @@ ns.toMoney(stringOrNumber, {
 Rounds to the closest interval
 
 ```js
-var ns = require("number-string");
+import { toClosest } from "number-string";
 
-ns.toClosest(12.6, 7.1); // 14.2
+toClosest(12.6, 7.1); // 14.2
 ```
 
 Parameters:
 
 ```js
-ns.toClosest(stringOrNumber, roundToNearestNumber);
+toClosest(stringOrNumber, roundToNearestNumber);
 ```
