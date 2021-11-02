@@ -1,7 +1,5 @@
 /**
  * Escape special RegExp characters in string
- * @param  {string} s String to escape
- * @return {string} Escaped string
  */
 function regexpEscape(s: string): string {
 	return s.replace(/[-[\]/{}()*+?.\\^$]/g, "\\$&");
@@ -12,29 +10,42 @@ export interface ToNumberOptions {
 }
 
 /**
+ * Convert value to number string
+ */
+export function toNumberString(value: string | number, {
+	decimalMark = ".",
+}: ToNumberOptions = {}): string {
+	if (typeof value === "number") {
+		return value.toString();
+	}
+	if (typeof value !== "string") {
+		return "NaN";
+	}
+
+	const regexpDecimalMark = regexpEscape(decimalMark);
+	let n: string = value.trim();
+	const negative = n.match(/^\(.*\)$|^-/); //negative if matches '(...)' or '-...'
+	const getNumberRegexp = new RegExp(`[^\\d${regexpDecimalMark}]|${regexpDecimalMark}(?=.*${regexpDecimalMark})|^\\D*${regexpDecimalMark}\\D*$`, "g");
+	n = n.replace(getNumberRegexp, "").replace(decimalMark, "."); //remove all except digits and last dot
+	if (n === "") {
+		n = "NaN";
+	} else if (negative) {
+		n = `-${n}`;
+	}
+	return n;
+}
+
+/**
  * Convert value to number
  */
 export function toNumber(value: string | number, {
 	decimalMark = ".",
 }: ToNumberOptions = {}): number {
-	if (typeof value === "number") {
-		return value;
-	}
-	if (typeof value !== "string") {
+	const s = toNumberString(value, { decimalMark });
+	if (s === "NaN") {
 		return NaN;
 	}
-
-	const regexpDecimalMark = regexpEscape(decimalMark);
-	let n: string | number = value.trim();
-	const negative = n.match(/^\(.*\)$|^-/); //negative if matches '(...)' or '-...'
-	const getNumberRegexp = new RegExp(`[^\\d${regexpDecimalMark}]|${regexpDecimalMark}(?=.*${regexpDecimalMark})|^\\D*${regexpDecimalMark}\\D*$`, "g");
-	n = n.replace(getNumberRegexp, "").replace(decimalMark, "."); //remove all except digits and last dot
-	if (n === "") {
-		n = NaN;
-	} else if (negative) {
-		n = -n;
-	}
-	return Number(n);
+	return Number(s);
 }
 
 export interface ToCleanOptions {
@@ -53,38 +64,56 @@ export function toClean(value: string | number, {
 	decimalMark = ".",
 	thousandSeperator = null,
 	thousandSeparator = ",",
-	maxPrecision = 10,
+	maxPrecision = 100,
 	minPrecision = 0,
 }: ToCleanOptions = {}): string { // 1.500000 -> 1.5; 1.0000 -> 1
 	if (thousandSeperator) {
 		thousandSeparator = thousandSeperator;
 		console.error("`thousandSeperator` is deprecated use `thousandSeparator` instead.");
 	}
-	if (typeof value !== "number") {
-		value = toNumber(value, {
-			decimalMark
-		});
-	}
-	if (isNaN(value)) {
+	value = toNumberString(value);
+	if (value === "NaN") {
 		return "NaN";
 	}
 
-	maxPrecision = (maxPrecision > 10 ? 10 : (maxPrecision < 0 ? 0 : maxPrecision));
-	minPrecision = (minPrecision < 0 ? 0 : (minPrecision > 10 ? 10 : minPrecision));
+	if (maxPrecision < 0) {
+		throw new Error("maxPrecision must be >= 0");
+	}
+	if (minPrecision < 0) {
+		throw new Error("minPrecision must be >= 0");
+	}
+	if (maxPrecision > 100) {
+		throw new Error("maxPrecision must be <= 100");
+	}
+	if (minPrecision > 100) {
+		throw new Error("minPrecision must be <= 100");
+	}
 	if (minPrecision > maxPrecision) {
-		throw Error("minPrecision must be <= maxPrecision");
+		throw new Error("minPrecision must be <= maxPrecision");
 	}
 	let n: string | number = value;
 
-	//limit to maxPrecision
-	n = String(+n.toFixed(maxPrecision));
+
+	// limit to maxPrecision
 	const dotIndex = n.lastIndexOf(".");
+
 	if (dotIndex > -1) {
-		n = n.slice(0, dotIndex) + decimalMark + n.slice(dotIndex + 1);
+		let integer = (dotIndex === 0 ? "0" : n.slice(0, dotIndex));
+		let fraction = n.slice(dotIndex + 1, dotIndex + 1 + maxPrecision);
+		const remainder = n.slice(dotIndex + 1 + maxPrecision);
+		if (remainder.length > 0 && +remainder[0] > 4) {
+			// round up
+			const i = (BigInt(integer + fraction) + BigInt(1)).toString(10);
+			integer = i.slice(0, i.length - fraction.length);
+			fraction = i.slice(i.length - fraction.length);
+		}
+		n = integer + decimalMark + fraction;
 	} else {
 		n += decimalMark;
 	}
-	//limit to minPrecision
+	// remove trailing 0s
+	n = n.replace(/0+$/, "");
+	// limit to minPrecision
 	if (minPrecision > 0) {
 		let numZeros;
 		if (dotIndex > -1) {
@@ -134,18 +163,21 @@ export function toMoney(value: string | number, {
 		thousandSeparator = thousandSeperator;
 		console.error("`thousandSeperator` is deprecated use `thousandSeparator` instead.");
 	}
-	if (typeof value !== "number") {
-		value = toNumber(value, {
-			decimalMark
-		});
-	}
-	if (isNaN(value)) {
+
+	let n = (typeof value === "number"
+		? value
+		: toNumber(value, {
+				decimalMark
+			})
+		);
+	let s = String(value);
+	if (isNaN(n)) {
 		return "NaN";
 	}
-	if (value === Infinity) {
+	if (n === Infinity) {
 		return "Infinity";
 	}
-	if (value === -Infinity) {
+	if (n === -Infinity) {
 		return (useParens ? "(Infinity)" : "-Infinity");
 	}
 
@@ -157,21 +189,20 @@ export function toMoney(value: string | number, {
 	}
 
 
-	const negative = value < 0;
-	let n: string | number = Math.abs(value);
+	const negative = n < 0;
 
-	n = toClean(n, {
+	s = toClean(negative ? s.slice(1) : s, {
 		decimalMark,
 		thousandSeparator,
 		maxPrecision,
 		minPrecision
 	});
 
-	n = (symbolBehind ? `${n} ${symbol}` : symbol + n);
+	s = (symbolBehind ? `${s} ${symbol}` : symbol + s);
 	if (negative) {
-		n = (useParens ? `(${n})` : `-${n}`);
+		s = (useParens ? `(${s})` : `-${s}`);
 	}
-	return n;
+	return s;
 }
 
 /**
