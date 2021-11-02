@@ -1,13 +1,14 @@
 {
+	"plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
 	"env": {
-		"browser": true,
 		"node": true,
-		"jasmine": true
-	},
-	"extends": "eslint:recommended",
-	"parserOptions": {
-		"ecmaVersion": 2018,
-		"sourceType": "module"
+		"jest": true
 	},
 	"rules": {
 		"indent": [
@@ -28,6 +29,7 @@
 		],
 		"no-var": "error",
 		"prefer-const": "error",
+		"prefer-rest-params": "off",
 		"prefer-template": "warn"
 	}
 }
