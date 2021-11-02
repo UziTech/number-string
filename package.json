@@ -31,10 +31,6 @@
   },
   "homepage": "https://github.com/UziTech/number-string#readme",
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.0",
-    "@babel/register": "^7.16.0",
     "@semantic-release/commit-analyzer": "^9.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^8.0.1",
