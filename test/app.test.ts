@@ -1,9 +1,56 @@
 import {
+	toNumberString,
 	toNumber,
 	toClean,
 	toMoney,
 	toClosest,
 } from "../src/app";
+
+describe("toNumberString", function() {
+	it("Positive Number", function() {
+		expect(toNumberString(2)).toBe("2");
+	});
+	it("Negative Number", function() {
+		expect(toNumberString(-2)).toBe("-2");
+	});
+	it("NaN", function() {
+		expect(toNumberString(NaN)).toBe("NaN");
+	});
+	it("Infinity", function() {
+		expect(toNumberString(Infinity)).toBe("Infinity");
+	});
+	it("-Infinity", function() {
+		expect(toNumberString(-Infinity)).toBe("-Infinity");
+	});
+	it("Positive String", function() {
+		expect(toNumberString("2")).toBe("2");
+	});
+	it("Negative - String", function() {
+		expect(toNumberString("-2")).toBe("-2");
+	});
+	it("Negative () String", function() {
+		expect(toNumberString("(2)")).toBe("-2");
+	});
+	it("Other Chars", function() {
+		expect(toNumberString("a2g")).toBe("2");
+	});
+	it("Single Decimal", function() {
+		expect(toNumberString("2.1")).toBe("2.1");
+	});
+	it("Multiple Decimal", function() {
+		expect(toNumberString("2.1.2")).toBe("21.2");
+	});
+	it("No Numbers", function() {
+		expect(toNumberString("asdf")).toBe("NaN");
+	});
+	it("Array", function() {
+		// @ts-expect-error invalid argument type
+		expect(toNumberString([1, 2, 3])).toBe("NaN");
+	});
+	it("Change Decimal Mark", function() {
+		expect(toNumberString("2,2", { decimalMark: "," })).toBe("2.2");
+	});
+});
 
 describe("toNumber", function() {
 	it("Positive Number", function() {
@@ -96,21 +143,34 @@ describe("toClean", function() {
 	it("Change Min Precision No Decimal", function() {
 		expect(toClean(1234, { minPrecision: 3 })).toBe("1,234.000");
 	});
+	it("Big Max Precision", function() {
+		expect(toClean("1,234.1234567890123456789012345678901", { maxPrecision: 30 })).toBe("1,234.12345678901234567890123456789");
+	});
+	it("Big Max Precision rounding", function() {
+		expect(toClean("1,234.1234567890123456789012345678901", { maxPrecision: 18 })).toBe("1,234.123456789012345679");
+	});
+	it("Big Min Precision", function() {
+		expect(toClean("1,234.12345678901234567890123456789", { minPrecision: 30 })).toBe("1,234.123456789012345678901234567890");
+	});
+
+	it("no integer", function() {
+		expect(toClean(".1234500")).toBe("0.12345");
+	});
 
 	it("Max Precision < 0", function() {
-		expect(toClean(1234, { maxPrecision: -1 })).toBe("1,234");
+		expect(() => { toClean(1234.5, { maxPrecision: -1 }); }).toThrow("maxPrecision must be >= 0");
 	});
-	it("Max Precision > 10", function() {
-		expect(toClean(1234.12345678901, { maxPrecision: 11 })).toBe("1,234.123456789");
+	it("Max Precision > 100", function() {
+		expect(() => { toClean(1234.5, { maxPrecision: 101 }); }).toThrow("maxPrecision must be <= 100");
 	});
 	it("Min Precision < 0", function() {
-		expect(toClean(1234, { minPrecision: -1 })).toBe("1,234");
+		expect(() => { toClean(1234.5, { minPrecision: -1 }); }).toThrow("minPrecision must be >= 0");
 	});
-	it("Min Precision > 10", function() {
-		expect(toClean(1234.5, { minPrecision: 11 })).toBe("1,234.5000000000");
+	it("Min Precision > 100", function() {
+		expect(() => { toClean(1234.5, { minPrecision: 101 }); }).toThrow("minPrecision must be <= 100");
 	});
 	it("minPrecision > maxPrecision Error", function() {
-		expect(() => { toClean(1234, { minPrecision: 3, maxPrecision: 2 }); }).toThrow();
+		expect(() => { toClean(1234, { minPrecision: 3, maxPrecision: 2 }); }).toThrow("minPrecision must be <= maxPrecision");
 	});
 });
 
@@ -155,8 +215,14 @@ describe("toMoney", function() {
 	it("Change Max Precision", function() {
 		expect(toMoney(1234.5, { maxPrecision: 0 })).toBe("$1,235");
 	});
+	it("Big Max Precision", function() {
+		expect(toMoney("1234.1234567890123456789012345678901", { maxPrecision: 30 })).toBe("$1,234.12345678901234567890123456789");
+	});
 	it("Change Min Precision", function() {
 		expect(toMoney(1234.5, { minPrecision: 3 })).toBe("$1,234.500");
+	});
+	it("Big Min Precision", function() {
+		expect(toMoney(1234.5, { minPrecision: 30 })).toBe("$1,234.500000000000000000000000000000");
 	});
 	it("Change Symbol", function() {
 		expect(toMoney(1234.5, { symbol: "£" })).toBe("£1,234.50");
