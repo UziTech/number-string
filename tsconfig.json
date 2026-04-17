@@ -5,6 +5,7 @@
     "declaration": true,
     "outDir": "dist",
     "rootDir": "./src",
-    "types": ["jest"]
+    "types": ["jest"],
+    "lib": ["es2024", "dom"]
   }
 }
