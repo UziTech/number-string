@@ -39,7 +39,7 @@
     "@semantic-release/npm": "^13.1.5",
     "@semantic-release/release-notes-generator": "^14.1.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.12.2",
+    "@types/node": "^24.12.3",
     "eslint": "^10.3.0",
     "globals": "^17.6.0",
     "jest": "^30.4.0",
