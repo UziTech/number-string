@@ -1,290 +1,292 @@
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
 import {
 	toNumberString,
 	toNumber,
 	toClean,
 	toMoney,
 	toClosest,
-} from "../src/app";
+} from "../src/app.js";
 
 describe("toNumberString", function() {
 	it("Positive Number", function() {
-		expect(toNumberString(2)).toBe("2");
+		assert.strictEqual(toNumberString(2), "2");
 	});
 	it("Negative Number", function() {
-		expect(toNumberString(-2)).toBe("-2");
+		assert.strictEqual(toNumberString(-2), "-2");
 	});
 	it("NaN", function() {
-		expect(toNumberString(NaN)).toBe("NaN");
+		assert.strictEqual(toNumberString(NaN), "NaN");
 	});
 	it("Infinity", function() {
-		expect(toNumberString(Infinity)).toBe("Infinity");
+		assert.strictEqual(toNumberString(Infinity), "Infinity");
 	});
 	it("-Infinity", function() {
-		expect(toNumberString(-Infinity)).toBe("-Infinity");
+		assert.strictEqual(toNumberString(-Infinity), "-Infinity");
 	});
 	it("Positive String", function() {
-		expect(toNumberString("2")).toBe("2");
+		assert.strictEqual(toNumberString("2"), "2");
 	});
 	it("Negative - String", function() {
-		expect(toNumberString("-2")).toBe("-2");
+		assert.strictEqual(toNumberString("-2"), "-2");
 	});
 	it("Negative () String", function() {
-		expect(toNumberString("(2)")).toBe("-2");
+		assert.strictEqual(toNumberString("(2)"), "-2");
 	});
 	it("Other Chars", function() {
-		expect(toNumberString("a2g")).toBe("2");
+		assert.strictEqual(toNumberString("a2g"), "2");
 	});
 	it("Single Decimal", function() {
-		expect(toNumberString("2.1")).toBe("2.1");
+		assert.strictEqual(toNumberString("2.1"), "2.1");
 	});
 	it("Multiple Decimal", function() {
-		expect(toNumberString("2.1.2")).toBe("21.2");
+		assert.strictEqual(toNumberString("2.1.2"), "21.2");
 	});
 	it("No Numbers", function() {
-		expect(toNumberString("asdf")).toBe("NaN");
+		assert.strictEqual(toNumberString("asdf"), "NaN");
 	});
 	it("Array", function() {
 		// @ts-expect-error invalid argument type
-		expect(toNumberString([1, 2, 3])).toBe("NaN");
+		assert.strictEqual(toNumberString([1, 2, 3]), "NaN");
 	});
 	it("Change Decimal Mark", function() {
-		expect(toNumberString("2,2", { decimalMark: "," })).toBe("2.2");
+		assert.strictEqual(toNumberString("2,2", { decimalMark: "," }), "2.2");
 	});
 });
 
 describe("toNumber", function() {
 	it("Positive Number", function() {
-		expect(toNumber(2)).toBe(2);
+		assert.strictEqual(toNumber(2), 2);
 	});
 	it("Negative Number", function() {
-		expect(toNumber(-2)).toBe(-2);
+		assert.strictEqual(toNumber(-2), -2);
 	});
 	it("NaN", function() {
-		expect(toNumber(NaN)).toBeNaN();
+		assert.ok(Number.isNaN(toNumber(NaN)));
 	});
 	it("Infinity", function() {
-		expect(toNumber(Infinity)).toBe(Infinity);
+		assert.strictEqual(toNumber(Infinity), Infinity);
 	});
 	it("-Infinity", function() {
-		expect(toNumber(-Infinity)).toBe(-Infinity);
+		assert.strictEqual(toNumber(-Infinity), -Infinity);
 	});
 	it("Positive String", function() {
-		expect(toNumber("2")).toBe(2);
+		assert.strictEqual(toNumber("2"), 2);
 	});
 	it("Negative - String", function() {
-		expect(toNumber("-2")).toBe(-2);
+		assert.strictEqual(toNumber("-2"), -2);
 	});
 	it("Negative () String", function() {
-		expect(toNumber("(2)")).toBe(-2);
+		assert.strictEqual(toNumber("(2)"), -2);
 	});
 	it("Other Chars", function() {
-		expect(toNumber("a2g")).toBe(2);
+		assert.strictEqual(toNumber("a2g"), 2);
 	});
 	it("Single Decimal", function() {
-		expect(toNumber("2.1")).toBe(2.1);
+		assert.strictEqual(toNumber("2.1"), 2.1);
 	});
 	it("Multiple Decimal", function() {
-		expect(toNumber("2.1.2")).toBe(21.2);
+		assert.strictEqual(toNumber("2.1.2"), 21.2);
 	});
 	it("No Numbers", function() {
-		expect(toNumber("asdf")).toBeNaN();
+		assert.ok(Number.isNaN(toNumber("asdf")));
 	});
 	it("Array", function() {
 		// @ts-expect-error invalid argument type
-		expect(toNumber([1, 2, 3])).toBeNaN();
+		assert.ok(Number.isNaN(toNumber([1, 2, 3])));
 	});
 	it("Change Decimal Mark", function() {
-		expect(toNumber("2,2", { decimalMark: "," })).toBe(2.2);
+		assert.strictEqual(toNumber("2,2", { decimalMark: "," }), 2.2);
 	});
 });
 
 describe("toClean", function() {
 	it("Positive Number", function() {
-		expect(toClean(2.0)).toBe("2");
+		assert.strictEqual(toClean(2.0), "2");
 	});
 	it("Negative Number", function() {
-		expect(toClean(-2.0)).toBe("-2");
+		assert.strictEqual(toClean(-2.0), "-2");
 	});
 	it("NaN", function() {
-		expect(toClean(NaN)).toBe("NaN");
+		assert.strictEqual(toClean(NaN), "NaN");
 	});
 	it("Infinity", function() {
-		expect(toClean(Infinity)).toBe("Infinity");
+		assert.strictEqual(toClean(Infinity), "Infinity");
 	});
 	it("-Infinity", function() {
-		expect(toClean(-Infinity)).toBe("-Infinity");
+		assert.strictEqual(toClean(-Infinity), "-Infinity");
 	});
 	it("Positive String", function() {
-		expect(toClean("2.0")).toBe("2");
+		assert.strictEqual(toClean("2.0"), "2");
 	});
 	it("Single Decimal", function() {
-		expect(toClean("2.10")).toBe("2.1");
+		assert.strictEqual(toClean("2.10"), "2.1");
 	});
 	it("Array", function() {
 		// @ts-expect-error invalid argument type
-		expect(toClean([1, 2, 3])).toBe("NaN");
+		assert.strictEqual(toClean([1, 2, 3]), "NaN");
 	});
 
 	it("Change Decimal Mark", function() {
-		expect(toClean(1234.5, { decimalMark: "," })).toBe("1,234,5");
+		assert.strictEqual(toClean(1234.5, { decimalMark: "," }), "1,234,5");
 	});
 	it("Change Deprecated Thousands Seperator", function() {
-		expect(toClean(1234.5, { thousandSeperator: "." })).toBe("1.234.5");
+		assert.strictEqual(toClean(1234.5, { thousandSeperator: "." }), "1.234.5");
 	});
 	it("Change Thousands Separator", function() {
-		expect(toClean(1234.5, { thousandSeparator: "." })).toBe("1.234.5");
+		assert.strictEqual(toClean(1234.5, { thousandSeparator: "." }), "1.234.5");
 	});
 	it("Change Max Precision", function() {
-		expect(toClean(1234.5, { maxPrecision: 0 })).toBe("1,235");
+		assert.strictEqual(toClean(1234.5, { maxPrecision: 0 }), "1,235");
 	});
 	it("Change Min Precision", function() {
-		expect(toClean(1234.5, { minPrecision: 3 })).toBe("1,234.500");
+		assert.strictEqual(toClean(1234.5, { minPrecision: 3 }), "1,234.500");
 	});
 	it("Change Min Precision No Decimal", function() {
-		expect(toClean(1234, { minPrecision: 3 })).toBe("1,234.000");
+		assert.strictEqual(toClean(1234, { minPrecision: 3 }), "1,234.000");
 	});
 	it("Big Max Precision", function() {
-		expect(toClean("1,234.1234567890123456789012345678901", { maxPrecision: 30 })).toBe("1,234.12345678901234567890123456789");
+		assert.strictEqual(toClean("1,234.1234567890123456789012345678901", { maxPrecision: 30 }), "1,234.12345678901234567890123456789");
 	});
 	it("Big Max Precision rounding", function() {
-		expect(toClean("1,234.1234567890123456789012345678901", { maxPrecision: 18 })).toBe("1,234.123456789012345679");
+		assert.strictEqual(toClean("1,234.1234567890123456789012345678901", { maxPrecision: 18 }), "1,234.123456789012345679");
 	});
 	it("Big Min Precision", function() {
-		expect(toClean("1,234.12345678901234567890123456789", { minPrecision: 30 })).toBe("1,234.123456789012345678901234567890");
+		assert.strictEqual(toClean("1,234.12345678901234567890123456789", { minPrecision: 30 }), "1,234.123456789012345678901234567890");
 	});
 
 	it("no integer", function() {
-		expect(toClean(".1234500")).toBe("0.12345");
+		assert.strictEqual(toClean(".1234500"), "0.12345");
 	});
 
 	it("Max Precision < 0", function() {
-		expect(() => { toClean(1234.5, { maxPrecision: -1 }); }).toThrow("maxPrecision must be >= 0");
+		assert.throws(() => { toClean(1234.5, { maxPrecision: -1 }); }, { message: "maxPrecision must be >= 0" });
 	});
 	it("Max Precision > 100", function() {
-		expect(() => { toClean(1234.5, { maxPrecision: 101 }); }).toThrow("maxPrecision must be <= 100");
+		assert.throws(() => { toClean(1234.5, { maxPrecision: 101 }); }, { message: "maxPrecision must be <= 100" });
 	});
 	it("Min Precision < 0", function() {
-		expect(() => { toClean(1234.5, { minPrecision: -1 }); }).toThrow("minPrecision must be >= 0");
+		assert.throws(() => { toClean(1234.5, { minPrecision: -1 }); }, { message: "minPrecision must be >= 0" });
 	});
 	it("Min Precision > 100", function() {
-		expect(() => { toClean(1234.5, { minPrecision: 101 }); }).toThrow("minPrecision must be <= 100");
+		assert.throws(() => { toClean(1234.5, { minPrecision: 101 }); }, { message: "minPrecision must be <= 100" });
 	});
 	it("minPrecision > maxPrecision Error", function() {
-		expect(() => { toClean(1234, { minPrecision: 3, maxPrecision: 2 }); }).toThrow("minPrecision must be <= maxPrecision");
+		assert.throws(() => { toClean(1234, { minPrecision: 3, maxPrecision: 2 }); }, { message: "minPrecision must be <= maxPrecision" });
 	});
 });
 
 describe("toMoney", function() {
 	it("Positive Number", function() {
-		expect(toMoney(1234.5)).toBe("$1,234.50");
+		assert.strictEqual(toMoney(1234.5), "$1,234.50");
 	});
 	it("Negative Number", function() {
-		expect(toMoney(-1234.5)).toBe("($1,234.50)");
+		assert.strictEqual(toMoney(-1234.5), "($1,234.50)");
 	});
 	//it('Negative Number Rounding Error', function () {
-	//    expect(toMoney(-.005)).toBe("$0.00"); //FIXME: actual: "($0.01)"
+	//    assert.strictEqual(toMoney(-.005), "$0.00"); //FIXME: actual: "($0.01)"
 	//});
 	it("Positive String", function() {
-		expect(toMoney("1234.5")).toBe("$1,234.50");
+		assert.strictEqual(toMoney("1234.5"), "$1,234.50");
 	});
 	it("Negative String", function() {
-		expect(toMoney("-1234.5")).toBe("($1,234.50)");
+		assert.strictEqual(toMoney("-1234.5"), "($1,234.50)");
 	});
 	it("NaN", function() {
-		expect(toMoney(NaN)).toBe("NaN");
+		assert.strictEqual(toMoney(NaN), "NaN");
 	});
 	it("Infinity", function() {
-		expect(toMoney(Infinity)).toBe("Infinity");
+		assert.strictEqual(toMoney(Infinity), "Infinity");
 	});
 	it("-Infinity", function() {
-		expect(toMoney(-Infinity)).toBe("(Infinity)");
+		assert.strictEqual(toMoney(-Infinity), "(Infinity)");
 	});
 	it("Array", function() {
 		// @ts-expect-error invalid argument type
-		expect(toMoney([1, 2, 3])).toBe("NaN");
+		assert.strictEqual(toMoney([1, 2, 3]), "NaN");
 	});
 	it("Change Decimal Mark", function() {
-		expect(toMoney(1234.5, { decimalMark: "," })).toBe("$1,234,50");
+		assert.strictEqual(toMoney(1234.5, { decimalMark: "," }), "$1,234,50");
 	});
 	it("Change Deprecated Thousands Seperator", function() {
-		expect(toMoney(1234.5, { thousandSeperator: "." })).toBe("$1.234.50");
+		assert.strictEqual(toMoney(1234.5, { thousandSeperator: "." }), "$1.234.50");
 	});
 	it("Change Thousands Separator", function() {
-		expect(toMoney(1234.5, { thousandSeparator: "." })).toBe("$1.234.50");
+		assert.strictEqual(toMoney(1234.5, { thousandSeparator: "." }), "$1.234.50");
 	});
 	it("Change Max Precision", function() {
-		expect(toMoney(1234.5, { maxPrecision: 0 })).toBe("$1,235");
+		assert.strictEqual(toMoney(1234.5, { maxPrecision: 0 }), "$1,235");
 	});
 	it("Big Max Precision", function() {
-		expect(toMoney("1234.1234567890123456789012345678901", { maxPrecision: 30 })).toBe("$1,234.12345678901234567890123456789");
+		assert.strictEqual(toMoney("1234.1234567890123456789012345678901", { maxPrecision: 30 }), "$1,234.12345678901234567890123456789");
 	});
 	it("Change Min Precision", function() {
-		expect(toMoney(1234.5, { minPrecision: 3 })).toBe("$1,234.500");
+		assert.strictEqual(toMoney(1234.5, { minPrecision: 3 }), "$1,234.500");
 	});
 	it("Big Min Precision", function() {
-		expect(toMoney(1234.5, { minPrecision: 30 })).toBe("$1,234.500000000000000000000000000000");
+		assert.strictEqual(toMoney(1234.5, { minPrecision: 30 }), "$1,234.500000000000000000000000000000");
 	});
 	it("Change Symbol", function() {
-		expect(toMoney(1234.5, { symbol: "£" })).toBe("£1,234.50");
+		assert.strictEqual(toMoney(1234.5, { symbol: "£" }), "£1,234.50");
 	});
 	it("Change Symbol Behind", function() {
-		expect(toMoney(1234.5, { symbolBehind: true })).toBe("1,234.50 $");
+		assert.strictEqual(toMoney(1234.5, { symbolBehind: true }), "1,234.50 $");
 	});
 	it("Change Use Parens", function() {
-		expect(toMoney(-1234.5, { useParens: false })).toBe("-$1,234.50");
+		assert.strictEqual(toMoney(-1234.5, { useParens: false }), "-$1,234.50");
 	});
 	it("Change Use Parens, -Infinity", function() {
-		expect(toMoney(-Infinity, { useParens: false })).toBe("-Infinity");
+		assert.strictEqual(toMoney(-Infinity, { useParens: false }), "-Infinity");
 	});
 
 });
 
 describe("toClosest", function() {
 	it("Positive Number", function() {
-		expect(toClosest(1234.5, 5)).toBe(1235);
+		assert.strictEqual(toClosest(1234.5, 5), 1235);
 	});
 	it("Positive Number Half Up", function() {
-		expect(toClosest(1232.5, 5)).toBe(1235);
+		assert.strictEqual(toClosest(1232.5, 5), 1235);
 	});
 	it("Negative Number", function() {
-		expect(toClosest(-1234.5, 5)).toBe(-1235);
+		assert.strictEqual(toClosest(-1234.5, 5), -1235);
 	});
 	it("Negative Number Half Up", function() {
-		expect(toClosest(-1232.5, 5)).toBe(-1230);
+		assert.strictEqual(toClosest(-1232.5, 5), -1230);
 	});
 	it("Decimal Number", function() {
-		expect(toClosest(1.5, .4)).toBe(1.6);
+		assert.strictEqual(toClosest(1.5, .4), 1.6);
 	});
 	it("Floating Point Arithmetic Error", function() {
-		expect(toClosest(1.5, .6)).toBe(1.8);
+		assert.strictEqual(toClosest(1.5, .6), 1.8);
 	});
 	it("Positive String", function() {
-		expect(toClosest("1234.5", 5)).toBe(1235);
+		assert.strictEqual(toClosest("1234.5", 5), 1235);
 	});
 	it("NaN", function() {
-		expect(toClosest(NaN)).toBeNaN();
+		assert.ok(Number.isNaN(toClosest(NaN)));
 	});
 	it("Infinity", function() {
-		expect(toClosest(Infinity, 5)).toBe(Infinity);
+		assert.strictEqual(toClosest(Infinity, 5), Infinity);
 	});
 	it("-Infinity", function() {
-		expect(toClosest(-Infinity, 5)).toBe(-Infinity);
+		assert.strictEqual(toClosest(-Infinity, 5), -Infinity);
 	});
 	it("Array", function() {
 		// @ts-expect-error invalid argument type
-		expect(toClosest([1, 2, 3], 1)).toBeNaN();
+		assert.ok(Number.isNaN(toClosest([1, 2, 3], 1)));
 	});
 
 	it("Round To String", function() {
-		expect(toClosest(1234.5, "5")).toBe(1235);
+		assert.strictEqual(toClosest(1234.5, "5"), 1235);
 	});
 	it("Round To NaN", function() {
-		expect(() => { toClosest(1234, NaN); }).toThrow();
+		assert.throws(() => { toClosest(1234, NaN); });
 	});
 	it("Round To Ininity", function() {
-		expect(toClosest(1234.5, Infinity)).toBe(Infinity);
+		assert.strictEqual(toClosest(1234.5, Infinity), Infinity);
 	});
 	it("Round To -Ininity", function() {
-		expect(toClosest(1234.5, -Infinity)).toBe(-Infinity);
+		assert.strictEqual(toClosest(1234.5, -Infinity), -Infinity);
 	});
 });
