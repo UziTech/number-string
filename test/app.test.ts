@@ -6,7 +6,7 @@ import {
 	toClean,
 	toMoney,
 	toClosest,
-} from "../src/app.js";
+} from "../src/app.ts";
 
 describe("toNumberString", function() {
 	it("Positive Number", function() {
